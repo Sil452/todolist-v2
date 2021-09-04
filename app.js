@@ -54,15 +54,18 @@ const day = date.getDate();
 
 app.post("/", function(req, res){
 
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
+  const item = new Item({
+    name: itemName
+  });
+
+  if(itemName.replace(/\s/g, '').length > 0){
+    item.save();
   }
+ 
+  res.redirect("/")
+
 });
 
 app.get("/work", function(req,res){
