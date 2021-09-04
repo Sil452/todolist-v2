@@ -36,8 +36,7 @@ Item.insertMany(defaultItems, function(err){
   if (err) {
     console.log(err);
   } else {
-    console.log("Successfully saved defaultItems to DB")
-    
+    console.log("Successfully saved defaultItems to DB");
   }
 });
 
