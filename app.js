@@ -45,8 +45,10 @@ const day = date.getDate();
           console.log("Successfully saved defaultItems to DB");
         }
       });
+      res.redirect("/")
+    } else{
+      res.render("list", {listTitle: day, newListItems: foundItems});
     }
-    res.render("list", {listTitle: day, newListItems: foundItems});
   });
 });
 
