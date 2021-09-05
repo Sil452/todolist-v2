@@ -1,7 +1,6 @@
 //jshint esversion:6
 
 const express = require("express");
-const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const app = express();
 
@@ -39,9 +38,8 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
-app.get("/", function(req, res) {
 
-const day = date.getDate();
+app.get("/", function(req, res) {
 
   Item.find({}, function(err, foundItems){
     if(foundItems.length === 0){
@@ -54,7 +52,7 @@ const day = date.getDate();
       });
       res.redirect("/")
     } else{
-      res.render("list", {listTitle: day, newListItems: foundItems});
+      res.render("list", {listTitle: "Today", newListItems: foundItems});
     }
   });
 });
@@ -84,17 +82,26 @@ app.get("/:customListName", function(req, res){
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem;
+  let listName = req.body.list;
 
   const item = new Item({
     name: itemName
   });
 
-  if(itemName.replace(/\s/g, '').length > 0){
-    item.save();
-  }
- 
-  res.redirect("/")
 
+  if(listName.trim() === "Today"){
+    if(itemName.replace(/\s/g, '').length > 0){
+      item.save();
+    }
+    res.redirect("/")
+  } else {
+    List.findOne({name : listName}, function(err, foundList){
+      console.log(foundList.name)
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName)
+    });
+  }
 });
 
 app.post("/delete", function(req, res){
