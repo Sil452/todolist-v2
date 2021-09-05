@@ -75,6 +75,7 @@ app.post("/delete", function(req, res){
       console.log(err);
     } else {
       console.log("Item successfully deleted!")
+      setTimeout(function(){res.redirect("/")}, 500);
     }
   });
 });
