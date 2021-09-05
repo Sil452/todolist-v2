@@ -64,13 +64,14 @@ app.get("/:customListName", function(req, res){
 
   List.findOne({name : customListName}, function(err, foundList){
     if(!err){
-      if(!foundList.name){
+      if(!foundList){
         const list = new List({
           name : customListName,
           items : defaultItems
         });
       
         list.save();
+        res.redirect("/" + customListName)
       } else {
         res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
       }
