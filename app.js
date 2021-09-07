@@ -96,9 +96,11 @@ app.post("/", function(req, res){
     res.redirect("/")
   } else {
     List.findOne({name : listName}, function(err, foundList){
-      console.log(foundList.name)
-      foundList.items.push(item);
+      if(itemName.replace(/\s/g, '').length > 0){
+        foundList.items.push(item);
       foundList.save();
+
+      }
       res.redirect("/" + listName)
     });
   }
