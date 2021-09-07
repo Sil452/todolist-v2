@@ -98,8 +98,7 @@ app.post("/", function(req, res){
     List.findOne({name : listName}, function(err, foundList){
       if(itemName.replace(/\s/g, '').length > 0){
         foundList.items.push(item);
-      foundList.save();
-
+        foundList.save();
       }
       res.redirect("/" + listName)
     });
